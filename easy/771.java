@@ -31,3 +31,22 @@ class Solution {
         return result;
     }
 }
+
+class Solution {
+    public int numJewelsInStones(String J, String S) {
+        if (J.length() == 0 || S.length() == 0) return 0;
+        
+        int[] characters = new int[58];
+        for (int i = 0; i < J.length(); ++i) {
+            characters[J.charAt(i) - 'A'] = 1;
+        }
+        
+        int result = 0;
+        for (int i = 0; i < S.length(); ++i) {
+            if (characters[S.charAt(i) - 'A'] == 1) {
+                result++;
+            }
+        }
+        return result;
+    }
+}
