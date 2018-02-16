@@ -33,6 +33,7 @@ The height and width of the given matrix is in range [1, 100].
 The given r and c are all positive.
 */
 
+// my solution
 class Solution {
     public int[][] matrixReshape(int[][] nums, int r, int c) {
     	int row_num = nums.length;
@@ -57,4 +58,16 @@ class Solution {
     	}
     	return res;
     }
+}
+
+// concise solution
+class Solution {
+	public int[][] matrixReshape(int[][] nums, int r, int c) {
+	    int n = nums.length, m = nums[0].length;
+	    if (r*c != n*m) return nums;
+	    int[][] res = new int[r][c];
+	    for (int i=0;i<r*c;i++) 
+	        res[i/c][i%c] = nums[i/m][i%m];
+	    return res;
+	}
 }
