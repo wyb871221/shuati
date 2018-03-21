@@ -30,38 +30,25 @@ class Solution {
             return ret;
         }
         
-        int start = intervals.get(0).start;
-        int end = intervals.get(0).end;
-        int insStart = newInterval.start;
-        int insEnd = newInterval.end;
-        
         int index = 0;
-        while (index < intervals.size() && end < insStart) {
-            ret.add(new Interval(start, end));
-            start = intervals.get(index).start;
-            end = intervals.get(index).end;
+        while (index < intervals.size() && intervals.get(index).end < newInterval.start) {
+            ret.add(intervals.get(index));
             index++;
         }
-        
-        if (insStart >= start) {
-            end = Math.max(insEnd, end);
+
+        while (index < intervals.size() && intervals.get(index).start <= newInterval.end) {
+            int start = Math.min(intervals.get(index).start, newInterval.start);
+            int end = Math.max(intervals.get(index).end, newInterval.end);
+            newInterval = new Interval(start, end);
             index++;
-        } else {
-            start = insStart;
-            end = insEnd;
         }
-        
-        for (int i = index; i < intervals.size(); ++i) {
-            Interval curr = intervals.get(i);
-            if (curr.start > end) {
-                ret.add(new Interval(start, end));
-                start = curr.start;
-                end = curr.end;
-            } else {
-                end = Math.max(curr.end, end);
-            }
+
+        ret.add(newInterval);
+
+        while (index < intervals.size()) {
+            ret.add(intervals.get(index));
+            index++;
         }
-        ret.add(new Interval(start, end));
         
         return ret;
     }
