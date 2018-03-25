@@ -8,3 +8,11 @@ eg 561.java
 
 2. If the range given by the problem is positive integer, then you can achieve O(1) space by using negative integer as a visited mark.
 eg. 442.java
+
+3. Subarray series
+	53
+	238
+	713
+	628
+	152
+	560
