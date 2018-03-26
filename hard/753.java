@@ -21,10 +21,14 @@ k will be in the range [1, 10].
 k^n will be at most 4096.
 */
 
+/*
+    解题思路：为了让解码序列最短，要做到将所有密码可能以共享(n - 1)的方式连在一起，
+    比如 00110, 这个答案中的密码为 00,01,11,10,其实他们之间都是共享了一个长度为(n - 1 = 2)的序列
+*/
 class Solution {
     public String crackSafe(int n, int k) {
         StringBuilder sb = new StringBuilder();
-        int total = (int) (Math.pow(k, n));
+        int total = (int) (Math.pow(k, n)); // 一共有多少种密码的可能，用于后面终止dfs
         for (int i = 0; i < n; i++) sb.append('0');
 
         Set<String> visited = new HashSet<>();
@@ -37,8 +41,8 @@ class Solution {
 
     private boolean dfs(StringBuilder sb, int goal, Set<String> visited, int n, int k) {
         if (visited.size() == goal) return true;
-        String prev = sb.substring(sb.length() - n + 1, sb.length());
-        for (int i = 0; i < k; i++) {
+        String prev = sb.substring(sb.length() - n + 1, sb.length()); // 截取当前数列的后n - 1位
+        for (int i = 0; i < k; i++) { // 尝试将每个数都加到prev的后面，构成一个新的序列，看看这条路径最后是否可以一直做到底
             String next = prev + i;
             if (!visited.contains(next)) {
                 visited.add(next);

@@ -22,44 +22,41 @@ Note: The length of each dimension in the given grid does not exceed 50.
 class Solution {
     public int maxAreaOfIsland(int[][] grid) {
         int max = 0;
+        
         for (int i = 0; i < grid.length; ++i) {
             for (int j = 0; j < grid[0].length; ++j) {
                 if (grid[i][j] == 1) {
-                    max = Math.max(getArea(grid, i, j), max);
+                    max = Math.max(getAreaOfIsland(grid, i, j), max);
                 }
             }
         }
+        
         return max;
     }
     
-    private int getArea(int[][] grid, int row, int col) {
-        grid[row][col] = 0;
-        int up = row > 0 ? grid[row - 1][col] : 0;
-        int down = row < grid.length - 1 ? grid[row + 1][col] : 0;
-        int left = col > 0 ? grid[row][col - 1] : 0;
-        int right = col < grid[0].length - 1 ? grid[row][col + 1] : 0;
-        int area = 1;
+    private int getAreaOfIsland(int[][] grid, int row, int col) {
+        int ret = 0;
         
-        if (up + down + left + right == 0) {
-            return 1;
-        } else {
-            if (row > 0 && grid[row - 1][col] == 1) {
-                area += getArea(grid, row - 1, col);
+        int[][] dirs = 
+        {
+            {-1, 0},
+            {1, 0},
+            {0, 1},
+            {0, -1}
+        };
+        
+        //递归面积相加的同时将遍历过的点改成0，避免重复计算
+        if (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length && grid[row][col] == 1) {
+            grid[row][col] = 0;
+            ret++;
+            for (int[] dir : dirs) {
+                int nextRow = row + dir[0];
+                int nextCol = col + dir[1];
+                ret += getAreaOfIsland(grid, nextRow, nextCol); 
             }
-            
-            if (row < grid.length - 1 && grid[row + 1][col] == 1) {
-                area += getArea(grid, row + 1, col);
-            }
-            
-            if (col > 0 && grid[row][col - 1] == 1) {
-                area += getArea(grid, row, col - 1);
-            }
-            
-            if (col < grid[0].length - 1 && grid[row][col + 1] == 1) {
-                area += getArea(grid, row, col + 1);
-            }
+            return ret;
         }
         
-        return area;
+        return 0;
     }
 }
