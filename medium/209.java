@@ -26,3 +26,42 @@ class Solution {
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 }
+
+// binary search solution O(nlogn)
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        int min = Integer.MAX_VALUE;
+        
+        if (nums.length == 0) return 0;
+        int[] sums = new int[nums.length + 1];
+        for (int i = 1; i <= nums.length; ++i) {
+            sums[i] = sums[i - 1] + nums[i - 1];
+        }
+        
+        for (int i = 1; i < sums.length; ++i) {
+            // in order to make sums[i] - sums[j] >= s, use binary search find the last sums[j] that fullfils this requirement.
+            if (sums[i] >= s) {
+                int toFind = sums[i] - s;
+                int index = binarySearch(sums, toFind, 0, i - 1);
+                min = Math.min(min, i - index);
+            }
+        }
+        
+        return min == Integer.MAX_VALUE ? 0 : min;
+    }
+    
+    private int binarySearch(int[] sums, int toFind, int left, int right) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (sums[mid] == toFind) {
+                return mid;
+            }
+            else if (sums[mid] > toFind) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right;
+    }
+}
