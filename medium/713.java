@@ -17,7 +17,7 @@ Note:
 0 <= k < 10^6.
 */
 
-// dp + two pointer
+// dp + two pointer, sliding windown solution
 class Solution {
     public int numSubarrayProductLessThanK(int[] nums, int k) {
         int start = 0; // pointer for where the new subarray should start from
