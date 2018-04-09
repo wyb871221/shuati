@@ -14,7 +14,7 @@ class Solution {
         int count = 0;
         for (int i = 0; i < s.length(); ++i) {
             char c = s.charAt(i);
-            if (map[c] == 0) {
+            if (map[c] == 0) { // 运用了二进制计数法，遇见两次清零
                 map[c] = 1;
                 count++;
             } else {

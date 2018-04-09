@@ -62,10 +62,10 @@ class Solution {
         Deque<TreeNode> stack = new LinkedList<>();
         for(int i = 0; i < nums.length; i++) {
             TreeNode curr = new TreeNode(nums[i]);
-            while(!stack.isEmpty() && stack.peek().val < nums[i]) {
+            while(!stack.isEmpty() && stack.peek().val < nums[i]) { // 如果遇见stack中最后点比当前点小的情况，一直出栈，直到栈空或者最后点比当前点大，一致出栈的原因是找到最接近当前点的一个节点，让其成为left
                 curr.left = stack.pop();
             }
-            if(!stack.isEmpty()) {
+            if(!stack.isEmpty()) { // 如果stack中最后进的点比当前点大，让当前点作为他的right
                 stack.peek().right = curr;
             }
             stack.push(curr);
